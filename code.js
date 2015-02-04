@@ -17,11 +17,13 @@ function readRows() {
   Logger.log("Looking for rows with email but no invited by...");
   for (var i = 0; i <= numRows - 1; i++) {
     var row = values[i];
-    if (row[2] == "" && row[1] != "") {
+    var email = row[1];
+    var invitedBy = row[2];
+    if ((invitedBy === "" || invitedBy === undefined) && (email !== "" && email !== undefined)) {
       var time = Math.ceil(new Date().getTime()/1000);
-      Logger.log("Inviting email="+row[1]+ " t="+time);
+      Logger.log("Inviting email=" + email + " t=" + time);
 
-      invite(row[1]);
+      invite(email);
       sheet.getRange(i+1, 3).setValue("scriptbot");
 
       SpreadsheetApp.flush();
@@ -66,8 +68,8 @@ function invite(email) {
   if (result.getResponseCode() == 200) {
 
     var params = JSON.parse(result.getContentText());
-    Logger.log(params);
 
+    Logger.log(params);
   } else {
     Logger.log("exception");
     Logger.log(result);
@@ -75,6 +77,14 @@ function invite(email) {
 
 };
 
+/**
+ * Adds a custom menu to the active spreadsheet, containing a single menu item
+ * for invoking the readRows() function specified above.
+ * The onOpen() function, when defined, is automatically invoked whenever the
+ * spreadsheet is opened.
+ * For more information on using the Spreadsheet API, see
+ * https://developers.google.com/apps-script/service_spreadsheet
+ */
 function onOpen() {
   var spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   var entries = [{
