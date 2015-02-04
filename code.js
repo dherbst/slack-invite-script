@@ -41,7 +41,7 @@ function invite(email) {
   var payload =
       {
         "email" : email,
-        "token" : "fill_in_your_api_token";
+        "token" : "fill_in_your_api_token",
         "channels": "C03G04GL7,C03EC6Y8L",
         "set_active": "true",
         "_attempts": "1",
