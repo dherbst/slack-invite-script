@@ -48,7 +48,7 @@ function invite(email) {
         "type" : "post",
       };
 
-  if (payload[token] == "fill_in_your_api_token") {
+  if (payload["token"] == "fill_in_your_api_token") {
     Logger.log("You have to fill in your api token");
     return;
   }
@@ -66,9 +66,7 @@ function invite(email) {
   if (result.getResponseCode() == 200) {
 
     var params = JSON.parse(result.getContentText());
-
-    Logger.log(params.name);
-    Logger.log(params.blog);
+    Logger.log(params);
 
   } else {
     Logger.log("exception");
