@@ -12,6 +12,9 @@ to a sheet.  Make sure the sheet has the email address in column B.
 3. Paste the code.js over any code that is populated in the script editor and save it.  Be sure
    to get your slack api token and paste it in where specified in the invite function.
 
+   You can get your slack api token for the team you are working with on the https://api.slack.com/web
+   page under the "Authentication" section.
+
 4. In the script editor, click "Resources" and select "Current Project's Triggers"
 
 5. Create a trigger that:
