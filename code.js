@@ -20,8 +20,7 @@ function readRows() {
     var email = row[1];
     var invitedBy = row[2];
     if ((invitedBy === "" || invitedBy === undefined) && (email !== "" && email !== undefined)) {
-      var time = Math.ceil(new Date().getTime()/1000);
-      Logger.log("Inviting email=" + email + " t=" + time);
+      Logger.log("Inviting email=" + email);
 
       invite(email);
       sheet.getRange(i+1, 3).setValue("scriptbot");
