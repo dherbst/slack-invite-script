@@ -31,28 +31,31 @@ function readRows() {
 };
 
 /**
- * Sends the email to the slack invite endpoint.  You need to fill in your api token
- * and the channels you want the user to be added to.
- *
-*/
-function invite(email) {
+ * obscure the full email
+ */
+function hideEmail(email) {
+  email = email.replace(/(.+)@.+$/, "$1@redacted");
+  Logger.log("replaced email with " + email);
+  return email;
+};
 
-  var time = Math.ceil(new Date().getTime()/1000);
-  var url = "https://phillydev.slack.com/api/users.admin.invite?t=" + time;
-  var payload =
-      {
-        "email" : email,
-        "token" : "fill_in_your_api_token",
-        "channels": "C03G04GL7,C03EC6Y8L",
-        "set_active": "true",
-        "_attempts": "1",
-        "type" : "post",
-      };
-
-  if (payload["token"] == "fill_in_your_api_token") {
-    Logger.log("You have to fill in your api token");
+/**
+ * Tell the signupform channel you invited someone
+ */
+function sayInvited(email) {
+  var payload = getPayload();
+  if (payload === undefined || payload === null) {
     return;
   }
+
+  var time = Math.ceil(new Date().getTime()/1000);
+  var url = "https://phillydev.slack.com/api/chat.postMessage?t=" + time;
+
+  payload["channel"] = "#signupform";
+  var text = "Invited " + hideEmail(email);
+  payload["text"] = text;
+  payload["username"] = "dherbstscriptbot";
+
 
   var options =
       {
@@ -69,6 +72,71 @@ function invite(email) {
     var params = JSON.parse(result.getContentText());
 
     Logger.log(params);
+  } else {
+    Logger.log("exception");
+    Logger.log(result);
+  }
+
+};
+
+/**
+ * Return a payload object with the basic required information.
+ */
+function getPayload() {
+  var token = "xoxp-3488236164-3502493780-3612587577-5ebd70";
+  if (token == "fill_in_your_api_token") {
+    Logger.log("You have to fill in your api token");
+    return;
+  }
+
+  var payload =
+      {
+        "token" : token,
+        "type" : "post"
+      };
+
+  return payload;
+}
+
+/**
+ * Sends the email to the slack invite endpoint.  You need to fill in your api token
+ * and the channels you want the user to be added to.
+ *
+*/
+function invite(email) {
+
+  var time = Math.ceil(new Date().getTime()/1000);
+  var url = "https://phillydev.slack.com/api/users.admin.invite?t=" + time;
+  var payload = getPayload();
+
+  if (payload === undefined || payload === null) {
+    return;
+  }
+
+  payload["email"] = email;
+  payload["channels"] = "C03G04GL7,C03EC6Y8L";
+  payload["set_active"] = "true";
+  payload["_attempts"] = "1";
+
+
+  var options =
+      {
+        "method"  : "POST",
+        "payload" : payload,
+        "followRedirects" : true,
+        "muteHttpExceptions": true
+      };
+
+  var result = UrlFetchApp.fetch(url, options);
+
+  if (result.getResponseCode() == 200) {
+
+    var params = JSON.parse(result.getContentText());
+
+    Logger.log(params);
+
+    sayInvited(email);
+
   } else {
     Logger.log("exception");
     Logger.log(result);
