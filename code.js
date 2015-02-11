@@ -83,7 +83,7 @@ function sayInvited(email) {
  * Return a payload object with the basic required information.
  */
 function getPayload() {
-  var token = "xoxp-3488236164-3502493780-3612587577-5ebd70";
+  var token = "fill_in_your_api_token"
   if (token == "fill_in_your_api_token") {
     Logger.log("You have to fill in your api token");
     return;
