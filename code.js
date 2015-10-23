@@ -1,7 +1,17 @@
+function getMyHost() {
+  // TODO: put your slack domain here
+  return "https://phillydev.slack.com";
+}
+
 function getToken() {
-  //PUT YOUR TOKEN HERE
+  // TODO: PUT YOUR TOKEN HERE
   var token = 'fill_in_your_api_token';
   return token;
+}
+
+function getSignupChannel() {
+  // TODO: PUT THE CHANNEL YOU WANT TO SEND UPDATES INTO HERE
+  return '#signupform';
 }
 
 /**
@@ -56,7 +66,7 @@ function sayInvited(email, inviteResponse) {
   var payload = getPayload();
   var result;
   var time = Math.ceil(new Date().getTime() / 1000);
-  var url = 'https://phillydev.slack.com/api/chat.postMessage?t=' + time;
+  var url = getMyHost() + '/api/chat.postMessage?t=' + time;
 
   if (!payload) {
     return;
@@ -69,10 +79,10 @@ function sayInvited(email, inviteResponse) {
       hideEmail(email) + ' Error:' + inviteResponse.error;
   }
 
-  payload.channel = '#signupform';
+  payload.channel = getSignupChannel();
 
   payload.text = message;
-  payload.username = 'dherbstscriptbot';
+  payload.username = 'scriptbot';
 
   options = {
     'method'  : 'POST',
@@ -122,7 +132,7 @@ function invite(email) {
   var payload = getPayload();
   var result;
   var time = Math.ceil(new Date().getTime() / 1000);
-  var url = 'https://phillydev.slack.com/api/users.admin.invite?t=' + time;
+  var url = getMyHost() + '/api/users.admin.invite?t=' + time;
 
   if (payload === undefined || payload === null) {
     return;
