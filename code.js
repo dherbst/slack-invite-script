@@ -14,6 +14,11 @@ function getSignupChannel() {
   return '#signupform';
 }
 
+function getInviteToChannels() {
+  // TODO: Put the channel you want to invite someone into here
+  return "#general";
+}
+
 /**
  * Retrieves all the rows in the active spreadsheet that contain data
  * When going through the rows if there no value in 'invited by' then
@@ -139,7 +144,7 @@ function invite(email) {
   }
 
   payload.email = email;
-  payload.channels = 'C03G04GL7,C03EC6Y8L';
+  payload.channels = getInviteToChannels();
   payload.set_active = 'true';
   payload._attempts = '1';
 
