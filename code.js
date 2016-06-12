@@ -11,12 +11,14 @@ function getToken() {
 
 function getSignupChannel() {
   // TODO: PUT THE CHANNEL YOU WANT TO SEND UPDATES INTO HERE
-  return '#signupform';
+  // Look up the channel id at https://api.slack.com/methods/channels.info/test
+  return '#C025D8NV4';
 }
 
 function getInviteToChannels() {
-  // TODO: Put the channel you want to invite someone into here
-  return "#general";
+  // TODO: Put the channel id you want to invite someone into here
+  // You can look up the channel id at https://api.slack.com/methods/channels.info/test
+  return "C025D8NV4";
 }
 
 /**
